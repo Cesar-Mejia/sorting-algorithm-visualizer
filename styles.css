@@ -1,0 +1,47 @@
+:root {
+  --width: 65vw;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  height: 40px;
+  width: 120px;
+  background-color: white;
+  border-radius: 3px;
+  /* border: none; */
+}
+
+#bars-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1px;
+  width: var(--width);
+  height: 60vh;
+  margin-top: 7vh;
+}
+
+#algorithm-btns {
+  width: var(--width);
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+#control-btns {
+  width: var(--width);
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 5vh;
+}
+
+.bar {
+  width: 10px;
+  background-color: black;
+}
