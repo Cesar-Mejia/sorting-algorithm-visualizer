@@ -1,26 +1,46 @@
 :root {
-  --width: 65vw;
+  --width: 85vw;
 }
 
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: whitesmoke;
 }
 
 button {
-  height: 40px;
+  height: 40px; 
   width: 120px;
-  background-color: white;
-  border-radius: 3px;
-  /* border: none; */
+  color: black;
+  background-color: whitesmoke;
+  border-radius: 4px;
+  border-width: 1.5px;
+  border-color: lightgray;
+  font-size: 0.9rem;
+  font-family: 'Nunito', sans-serif;
+}
+
+button:disabled {
+  background-color: rgba(0, 0, 0, 0.684);
+  color: whitesmoke;
+}
+
+button:disabled:hover {
+  background-color: rgba(0, 0, 0, 0.684);
+  cursor: auto;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 #bars-container {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 1px;
+  gap: 0.5px;
   width: var(--width);
   height: 60vh;
   margin-top: 7vh;
@@ -43,5 +63,5 @@ button {
 
 .bar {
   width: 10px;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.755);
 }
