@@ -24,7 +24,7 @@ export function selectionSort(array) {
       moves.push({ indeces: [i, lowest], j, type: 'comp' })
       if (array[lowest] > array[j]) {
         lowest = j
-        moves.push({ indeces: [i, lowest], j, type: 'comp' })
+        // moves.push({ indeces: [i, lowest], j, type: 'comp' })
       }
     }
 
@@ -37,19 +37,99 @@ export function selectionSort(array) {
   return moves
 }
 
-export function insertionSort(arr) {
+export function insertionSort(array) {
   let moves = []
   let currentVal
-  for (let i = 1; i < arr.length; i++) {
-    currentVal = arr[i]
+  for (let i = 1; i < array.length; i++) {
+    currentVal = array[i]
     let j = i - 1
     moves.push({ indeces: [j, i], type: 'comp' })
 
-    while (j >= 0 && arr[j] > currentVal) {
+    while (j >= 0 && array[j] > currentVal) {
       moves.push({ indeces: [j + 1, j], type: 'swap' })
-      ;[arr[j + 1], arr[j]] = [arr[j], arr[j + 1]]
+      ;[array[j + 1], array[j]] = [array[j], array[j + 1]]
       j--
     }
   }
   return moves
+}
+
+let moves_m
+export function mergeSort(array) {
+  moves_m = []
+  if (array.length <= 0) return array
+
+  let auxiliaryArray = [...array]
+  mergeSortHelper(array, 0, array.length - 1, auxiliaryArray)
+  return moves_m
+}
+
+function mergeSortHelper(mainArray, startIdx, endIdx, auxiliaryArray) {
+  if (startIdx === endIdx) return
+  let middleIdx = startIdx + Math.floor((endIdx - startIdx) / 2)
+  mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray)
+  mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray)
+  merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray)
+}
+
+function merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray) {
+  let shift = []
+  let k = startIdx
+  let i = startIdx
+  let j = middleIdx + 1
+
+  while (i <= middleIdx && j <= endIdx) {
+    moves_m.push({ indeces: [i, j], type: 'comp' })
+    if (auxiliaryArray[i] <= auxiliaryArray[j]) {
+      mainArray[k] = auxiliaryArray[i]
+      shift.push({ indeces: [k, i], aux: auxiliaryArray, type: 'shift' })
+      i++
+    } else {
+      mainArray[k] = auxiliaryArray[j]
+      shift.push({ indeces: [k, j], aux: auxiliaryArray, type: 'shift' })
+      j++
+    }
+    k++
+  }
+
+  while (i <= middleIdx) {
+    mainArray[k] = auxiliaryArray[i]
+    shift.push({ indeces: [k, i], aux: auxiliaryArray, type: 'shift' })
+    i++
+    k++
+  }
+
+  while (j <= endIdx) {
+    mainArray[k] = auxiliaryArray[j]
+    shift.push({ indeces: [k, j], aux: auxiliaryArray, type: 'shift' })
+    j++
+    k++
+  }
+  moves_m.push(...shift)
+}
+
+function pivot(arr, start = 0, end = arr.length - 1, moves_q) {
+  let swapIdx = start
+
+  for (let i = start + 1; i <= end; i++) {
+    moves_q.push({ indeces: [start, i], type: 'comp' })
+    if (arr[i] < arr[start]) {
+      swapIdx++
+      ;[arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
+      moves_q.push({ indeces: [swapIdx, i, start], type: 'comp' })
+      moves_q.push({ indeces: [swapIdx, i], type: 'swap' })
+    }
+  }
+  ;[arr[start], arr[swapIdx]] = [arr[swapIdx], arr[start]]
+  moves_q.push({ indeces: [swapIdx, start], type: 'comp' })
+  moves_q.push({ indeces: [swapIdx, start], type: 'swap' })
+  return swapIdx
+}
+
+export function quickSort(arr, left = 0, right = arr.length - 1, moves_q = []) {
+  if (left >= right) return
+  let pivotIdx = pivot(arr, left, right, moves_q)
+  quickSort(arr, left, pivotIdx - 1, moves_q)
+  quickSort(arr, pivotIdx + 1, right, moves_q)
+  return moves_q
 }

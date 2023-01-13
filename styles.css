@@ -6,7 +6,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
+  background-color: rgba(85, 107, 47, 0.301);
+  font-size: 0.9rem;
+  font-family: 'Nunito', sans-serif;
 }
 
 button {
@@ -17,13 +20,12 @@ button {
   border-radius: 4px;
   border-width: 1.5px;
   border-color: lightgray;
-  font-size: 0.9rem;
-  font-family: 'Nunito', sans-serif;
 }
 
 button:disabled {
-  background-color: rgba(0, 0, 0, 0.684);
+  background-color: rgba(0, 0, 0, 0.558);
   color: whitesmoke;
+  color: white;
 }
 
 button:disabled:hover {
@@ -62,6 +64,61 @@ button:hover {
 }
 
 .bar {
-  width: 10px;
-  background-color: rgba(0, 0, 0, 0.755);
+  width: 20px;
+  background-color: rgba(0, 0, 0, 0.604);
+}
+
+.slide-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 60%; /* Full-width */
+  height: 15px; /* Specified height */
+  background: whitesmoke;
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+.slider:disabled {
+  opacity: 0.4;
+}
+
+.slider:disabled:hover {
+  opacity: 0.4;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 15px; /* Set a specific slider handle width */
+  height: 15px; /* Slider handle height */
+  background: rgba(0, 100, 0, 0.807); 
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 15px; /* Set a specific slider handle width */
+  height: 15px; /* Slider handle height */
+  background: rgba(0, 100, 0, 0.807); 
+  cursor: pointer; /* Cursor on hover */
+}
+
+label {
+  margin-top: 8px;
 }
