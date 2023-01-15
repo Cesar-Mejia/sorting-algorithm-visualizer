@@ -1,3 +1,4 @@
+// implements bubble-sort algorithm
 export function bubbleSort(array) {
   const moves = []
   let noSwaps
@@ -21,6 +22,7 @@ export function bubbleSort(array) {
   return moves
 }
 
+// implements selection-sort algorithm
 export function selectionSort(array) {
   let moves = []
 
@@ -44,6 +46,7 @@ export function selectionSort(array) {
   return moves
 }
 
+// implements insertion-sort algorithms
 export function insertionSort(array) {
   let moves = []
   let currentVal
@@ -64,6 +67,7 @@ export function insertionSort(array) {
   return moves
 }
 
+// implements merge-sort algorithms
 export function mergeSort(array, moves_m = []) {
   if (array.length <= 0) return array
   let auxiliaryArray = [...array]
@@ -143,6 +147,7 @@ function pivot(arr, start = 0, end = arr.length - 1, moves_q) {
   return swapIdx
 }
 
+// implements quick-sort algorithm
 export function quickSort(arr, left = 0, right = arr.length - 1, moves_q = []) {
   if (left >= right) return
   let pivotIdx = pivot(arr, left, right, moves_q)
