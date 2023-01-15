@@ -40,7 +40,6 @@ function algoBtns_init() {
 
   function selectAlgo(e) {
     generateArrayBtn.click()
-
     currentSelection = e.target.id
     for (let btn of algoBtns) {
       if (btn.disabled) {
@@ -131,9 +130,13 @@ function animate_bubbleSort(moves) {
       const bar = document.createElement('div')
       bar.style.height = array[i] + '%'
       bar.classList.add('bar')
-      if (move && move.indeces.includes(i)) {
-        bar.style.backgroundColor = move.type === 'swap' ? color2 : color1
+
+      if (move && move.indeces.includes(i) && move.type === 'swap') {
+        bar.style.backgroundColor = i === move.indeces[0] ? color2 : color1
+      } else if (move && move.indeces.includes(i) && move.type === 'comp') {
+        bar.style.backgroundColor = i === move.indeces[1] ? color2 : color1
       }
+
       container.appendChild(bar)
     }
   }
@@ -141,6 +144,7 @@ function animate_bubbleSort(moves) {
     reset()
     return
   }
+
   if (!moves.length) {
     reset()
     return showBars_bubbleSort()
@@ -152,6 +156,7 @@ function animate_bubbleSort(moves) {
   if (move.type === 'swap') {
     ;[array[i], array[j]] = [array[j], array[i]]
   }
+
   showBars_bubbleSort(move)
   setTimeout(() => {
     animate_bubbleSort(moves)
@@ -205,12 +210,14 @@ function animate_insertionSort(moves) {
       const bar = document.createElement('div')
       bar.style.height = array[i] + '%'
       bar.classList.add('bar')
+
       if (move && move.indeces.includes(i) && move.type === 'comp') {
         bar.style.backgroundColor = color1
       }
       if (move && move.indeces.slice(1).includes(i) && move.type === 'swap') {
         bar.style.backgroundColor = color2
       }
+
       container.appendChild(bar)
     }
   }
@@ -239,21 +246,16 @@ function animate_insertionSort(moves) {
 
 function animate_mergeSort(moves) {
   function showBars_mergeSort(move) {
-    if (resetClicked) {
-      reset()
-      return
-    }
     container.innerHTML = ''
     for (let i = 0; i < array.length; i++) {
       const bar = document.createElement('div')
       bar.style.height = array[i] + '%'
       bar.classList.add('bar')
-      if (move && move.type === 'comp' && move.indeces.includes(i)) {
-        bar.style.backgroundColor = color1
+
+      if (move && move.indeces.includes(i)) {
+        bar.style.backgroundColor = move.type === 'comp' ? color1 : color2
       }
-      if (move && move.type === 'shift' && move.indeces.slice(0, 1).includes(i)) {
-        bar.style.backgroundColor = color2
-      }
+
       container.appendChild(bar)
     }
   }
@@ -268,10 +270,10 @@ function animate_mergeSort(moves) {
     return showBars_mergeSort()
   }
   let move = moves.shift()
-  const [i, j] = move.indeces
+  const [i] = move.indeces
 
-  if (move.type === 'shift') {
-    array[i] = move.aux[j]
+  if (move.type === 'replace') {
+    array[i] = move.newVal
   }
 
   showBars_mergeSort(move)
@@ -287,11 +289,19 @@ function animate_quickSort(moves) {
     for (let i = 0; i < array.length; i++) {
       const bar = document.createElement('div')
       bar.style.height = array[i] + '%'
-      // bar.innerHTML = bar.style.height
       bar.classList.add('bar')
 
-      if (move && move.indeces.includes(i)) {
-        bar.style.backgroundColor = move.type === 'swap' ? color2 : color1
+      if (move && move.type === 'swap' && (move.start === i || move.indeces.includes(i))) {
+        if (!move.finalSwap) {
+          bar.style.backgroundColor = move.start === i ? color1 : color2
+        } else if (move.indeces.includes(i)) {
+          bar.style.backgroundColor = color2
+        }
+      } else if (move && move.indeces.includes(i) && move.type === 'comp') {
+        bar.style.backgroundColor = color1
+      }
+      if (move && i > move.start && i < move.swapIdx) {
+        bar.style.backgroundColor = 'gray'
       }
 
       container.appendChild(bar)

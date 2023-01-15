@@ -54,26 +54,24 @@ export function insertionSort(array) {
   return moves
 }
 
-let moves_m
-export function mergeSort(array) {
-  moves_m = []
+export function mergeSort(array, moves_m = []) {
   if (array.length <= 0) return array
 
   let auxiliaryArray = [...array]
-  mergeSortHelper(array, 0, array.length - 1, auxiliaryArray)
+  mergeSortHelper(array, 0, array.length - 1, auxiliaryArray, moves_m)
   return moves_m
 }
 
-function mergeSortHelper(mainArray, startIdx, endIdx, auxiliaryArray) {
+function mergeSortHelper(mainArray, startIdx, endIdx, auxiliaryArray, moves_m) {
   if (startIdx === endIdx) return
   let middleIdx = startIdx + Math.floor((endIdx - startIdx) / 2)
-  mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray)
-  mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray)
-  merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray)
+  mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray, moves_m)
+  mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray, moves_m)
+  merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, moves_m)
 }
 
-function merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray) {
-  let shift = []
+function merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, moves_m) {
+  let replace = []
   let k = startIdx
   let i = startIdx
   let j = middleIdx + 1
@@ -82,11 +80,11 @@ function merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray) {
     moves_m.push({ indeces: [i, j], type: 'comp' })
     if (auxiliaryArray[i] <= auxiliaryArray[j]) {
       mainArray[k] = auxiliaryArray[i]
-      shift.push({ indeces: [k, i], aux: auxiliaryArray, type: 'shift' })
+      replace.push({ indeces: [k], newVal: auxiliaryArray[i], type: 'replace' })
       i++
     } else {
       mainArray[k] = auxiliaryArray[j]
-      shift.push({ indeces: [k, j], aux: auxiliaryArray, type: 'shift' })
+      replace.push({ indeces: [k], newVal: auxiliaryArray[j], type: 'replace' })
       j++
     }
     k++
@@ -94,35 +92,33 @@ function merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray) {
 
   while (i <= middleIdx) {
     mainArray[k] = auxiliaryArray[i]
-    shift.push({ indeces: [k, i], aux: auxiliaryArray, type: 'shift' })
+    replace.push({ indeces: [k], newVal: auxiliaryArray[i], type: 'replace' })
     i++
     k++
   }
 
   while (j <= endIdx) {
     mainArray[k] = auxiliaryArray[j]
-    shift.push({ indeces: [k, j], aux: auxiliaryArray, type: 'shift' })
+    replace.push({ indeces: [k], newVal: auxiliaryArray[j], type: 'replace' })
     j++
     k++
   }
-  moves_m.push(...shift)
+  moves_m.push(...replace)
 }
 
 function pivot(arr, start = 0, end = arr.length - 1, moves_q) {
   let swapIdx = start
 
   for (let i = start + 1; i <= end; i++) {
-    moves_q.push({ indeces: [start, i], type: 'comp' })
+    moves_q.push({ indeces: [start, i, swapIdx], start, swapIdx, type: 'comp' })
     if (arr[i] < arr[start]) {
       swapIdx++
       ;[arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
-      moves_q.push({ indeces: [swapIdx, i, start], type: 'comp' })
-      moves_q.push({ indeces: [swapIdx, i], type: 'swap' })
+      moves_q.push({ indeces: [swapIdx, i], start, swapIdx, type: 'swap', finalSwap: false })
     }
   }
   ;[arr[start], arr[swapIdx]] = [arr[swapIdx], arr[start]]
-  moves_q.push({ indeces: [swapIdx, start], type: 'comp' })
-  moves_q.push({ indeces: [swapIdx, start], type: 'swap' })
+  moves_q.push({ indeces: [swapIdx, start], start, swapIdx, type: 'swap', finalSwap: true })
   return swapIdx
 }
 
