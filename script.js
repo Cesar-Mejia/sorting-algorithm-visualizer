@@ -135,6 +135,7 @@ function animate(moves) {
   // draws the bars depending on current algorithms selection
   function drawBars(move) {
     container.innerHTML = ''
+    // draws/colors each bar according current move & algorithm
     for (let i = 0; i < array.length; i++) {
       const bar = document.createElement('div')
       bar.style.height = array[i] + '%'
