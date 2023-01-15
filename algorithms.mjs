@@ -46,8 +46,10 @@ export function insertionSort(array) {
     moves.push({ indeces: [j, i], type: 'comp' })
 
     while (j >= 0 && array[j] > currentVal) {
+      moves.push({ indeces: [j, j + 1], type: 'comp' })
       moves.push({ indeces: [j + 1, j], type: 'swap' })
       ;[array[j + 1], array[j]] = [array[j], array[j + 1]]
+
       j--
     }
   }
