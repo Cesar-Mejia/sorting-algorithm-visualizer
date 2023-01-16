@@ -7,6 +7,7 @@ const sortBtn = document.getElementById('sort-btn')
 const algoBtns = document.getElementById('algorithm-btns').children
 const speedSlider = document.getElementById('speed')
 const sizeSlider = document.getElementById('size')
+const timeComplexity = document.getElementById('complexity')
 
 // event listener initialization
 window.addEventListener('load', onLoad)
@@ -69,6 +70,15 @@ function algoBtns_init() {
   function selectAlgo(e) {
     generateArrayBtn.click()
     currentSelection = e.target.id
+
+    // resets time-complexity label
+    if (currentSelection === 'merge-sort' || currentSelection === 'quick-sort') {
+      timeComplexity.innerHTML = 'O(NlogN)'
+    } else {
+      timeComplexity.innerHTML = 'O(N<sup>2</sup>)'
+    }
+
+    // sets currently selected button to disabled
     for (let btn of algoBtns) {
       if (btn.disabled) {
         btn.disabled = false
