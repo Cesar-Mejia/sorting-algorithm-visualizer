@@ -1,4 +1,4 @@
-# Sorting Algorithm Project
+# Sorting Algorithm Visualizer
 This project contains implementations of several popular sorting algorithms using HTML, Javascript, and CSS. The project can be viewed at https://cesar-mejia.github.io/sorting-algorithm-visualizer/
 
 ## Algorithms
