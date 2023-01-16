@@ -151,6 +151,7 @@ function animate(moves) {
       bar.style.height = array[i] + '%'
       bar.classList.add('bar')
 
+      // sets bar color depending on currently selected algorithm and move
       switch (currentSelection) {
         case 'bubble-sort':
           if (move && move.indeces.includes(i) && move.type === 'swap') {
@@ -212,14 +213,13 @@ function animate(moves) {
   const move = moves.shift()
   const [i, j] = move.indeces
 
+  // performs a swap or a value replacement depending on algorithm selection
   if (currentSelection !== 'merge-sort') {
     if (move.type === 'swap') {
       ;[array[i], array[j]] = [array[j], array[i]]
     }
-  } else {
-    if (move.type === 'replace') {
-      array[i] = move.newVal
-    }
+  } else if (move.type === 'replace') {
+    array[i] = move.newVal
   }
 
   drawBars(move)
